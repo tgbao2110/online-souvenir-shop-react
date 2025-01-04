@@ -35,7 +35,7 @@ const Register = () => {
         phoneNumber: phoneNumber,
         address: address,
         avatar: image,
-        gender: gender
+        gender: (gender==="Male")?true:false
       });
 
       if (response.status === 200) {

@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from "react";
-import { Button, TextField } from "@mui/material";
+import {TextField } from "@mui/material";
 import api from "../../../utils/api";
-import AdminLayout from "../../../layouts/AdminLayout";
-import AccountDetailsModal from "./AccountDetailsModal";
+import AdminLayout from "../../../layout/AdminLayout";
+import AccountDetailsModal from "./Details";
 
 const Accounts = () => {
   const [accounts, setAccounts] = useState([]);
@@ -65,16 +65,15 @@ const Accounts = () => {
                 <td>{account.fullName}</td>
                 <td>{account.email}</td>
                 <td>
-                  <Button
-                    variant="contained"
-                    color="primary"
+                  <button
+                    className="btn btn-primary mr-2" 
                     onClick={() => {
                       setCurrentAccount(account);
                       setShowDetailsModal(true);
                     }}
                   >
                     Details
-                  </Button>
+                  </button>
                 </td>
               </tr>
             ))}
