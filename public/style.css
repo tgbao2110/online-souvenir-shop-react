@@ -169,6 +169,33 @@ h1,h2,h3,h4,h5,h6 {
 .container, .container-fluid, .container-lg, .container-md, .container-sm, .container-xl, .container-xxl {
   --bs-gutter-x: 3rem;
 }
+
+
+.custom-radio {
+  position: absolute;
+  opacity: 0;
+  cursor: pointer;
+}
+
+.custom-radio + .form-check-label::before {
+  content: '';
+  display: inline-block;
+  width: 1rem;
+  height: 1rem;
+  margin-right: 0.5rem;
+  border: 1px solid #007bff;
+  border-radius: 50%;
+  vertical-align: middle;
+  background-color: #fff;
+  transition: background-color 0.2s, border-color 0.2s;
+}
+
+.custom-radio:checked + .form-check-label::before {
+  background-color: #007bff;
+  border-color: #007bff;
+}
+
+
 /*----------------------------------------------*/
 /* 6. SITE STRUCTURE */
 /*----------------------------------------------*/
