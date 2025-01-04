@@ -74,7 +74,7 @@ const Products = () => {
         >
           Add Product
         </button>
-        <table className="table table-bordered mt-3">
+        <table className="table table-hover table-group-divider mt-3">
           <thead>
             <tr>
               <th>Name</th>

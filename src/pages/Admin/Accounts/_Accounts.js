@@ -38,7 +38,7 @@ const Accounts = () => {
   return (
     <AdminLayout>
       <div className="container mt-5">
-        <h1 className="text-secondary mb-4">Accounts</h1>
+        <h1 className="text-primary mb-4">Accounts</h1>
         <div className="mb-3">
           <TextField
             fullWidth

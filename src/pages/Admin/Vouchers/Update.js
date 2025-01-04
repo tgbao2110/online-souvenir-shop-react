@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from "react";
-import { Modal, Box, Button, Typography, TextField } from "@mui/material";
+import api from "../../../utils/api";
+import { Modal, Box, TextField } from "@mui/material";
 import { DatePicker, LocalizationProvider } from "@mui/x-date-pickers";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
-import api from "../../../utils/api";
 import dayjs from "dayjs";
 
 const UpdateVoucherModal = ({ 
@@ -52,9 +52,6 @@ const UpdateVoucherModal = ({
       onClose={handleClose}
     >
       <Box sx={{ ...style, width: 400 }}>
-        <Typography id="modal-modal-title" variant="h6" component="h2">
-          Update Voucher
-        </Typography>
         <TextField
           fullWidth
           required
@@ -95,12 +92,12 @@ const UpdateVoucherModal = ({
         />
         <br/><br/>
         <div className="d-flex">
-          <Button className="me-2" variant="contained" color="primary" onClick={handleUpdateVoucher}>
+          <button className=" btn btn-primary me-2" onClick={handleUpdateVoucher}>
             Save
-          </Button>
-          <Button variant="outlined" color="black" onClick={handleClose}>
+          </button>
+          <button className="btn btn-outline-secondary" color="black" onClick={handleClose}>
             Close
-          </Button>
+          </button>
         </div>
       </Box>
     </Modal>

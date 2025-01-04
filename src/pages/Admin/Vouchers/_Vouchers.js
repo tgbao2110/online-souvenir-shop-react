@@ -1,17 +1,17 @@
 import React, { useState, useEffect } from "react";
-import { Button, TextField } from "@mui/material";
 import api from "../../../utils/api";
-import AdminLayout from "../../../layouts/AdminLayout";
+import fTime from "../../../utils/FormatDateTime";
+import fCurrency from "../../../utils/FormatCurrency";
+import { TextField } from "@mui/material";
+import AdminLayout from "../../../layout/AdminLayout";
 import CreateVoucherModal from "./Create";
 import UpdateVoucherModal from "./Update";
-import DeleteVoucherModal from "./Delete";
 const Vouchers = () => {
   const [vouchers, setVouchers] = useState([]);
   const [searchTerm, setSearchTerm] = useState("");
   const [error, setError] = useState("");
   const [showCreateModal, setShowCreateModal] = useState(false);
   const [showUpdateModal, setShowUpdateModal] = useState(false);
-  const [showDeleteModal, setShowDeleteModal] = useState(false);
   const [currentVoucher, setCurrentVoucher] = useState(null);
   useEffect(() => {
     fetchVouchers();
@@ -35,7 +35,7 @@ const Vouchers = () => {
   return (
     <AdminLayout>
       <div className="container mt-5">
-        <h1 className="text-secondary mb-4">Vouchers</h1>
+        <h1 className="text-primary mb-4">Vouchers</h1>
         <div className="mb-3">
           <TextField
             fullWidth
@@ -46,13 +46,12 @@ const Vouchers = () => {
           />
         </div>
         {error && <div className="alert alert-danger">{error}</div>}
-        <Button
-          variant="contained"
-          color="primary"
+        <button
+          className="btn btn-primary"
           onClick={() => setShowCreateModal(true)}
         >
           Add Voucher
-        </Button>
+        </button>
         <table className="table table-hover table-group-divider mt-3">
           <thead>
             <tr>
@@ -63,32 +62,21 @@ const Vouchers = () => {
           <tbody>
             {filteredVouchers.map((voucher) => (
               <tr key={voucher.id}>
-                <td>{voucher.code}</td> <td>{voucher.discountAmount}</td>
-                <td>{voucher.expirationDate}</td> <td>{voucher.status}</td>
+                <td>{voucher.code}</td> <td>{fCurrency(voucher.discountAmount)}</td>
+                <td>{fTime(voucher.expirationDate)}</td> <td>{voucher.status}</td>
                 <td>{voucher.maxUsageCount.toLocaleString()}</td>
                 <td>{voucher.currentUsageCount.toLocaleString()}</td>
                 <td>
-                  <Button
+                  <button
                     style={{ marginRight: "10px" }}
-                    variant="contained"
-                    color="primary"
+                    className="btn btn-primary"
                     onClick={() => {
                       setCurrentVoucher(voucher);
                       setShowUpdateModal(true);
                     }}
                   >
                     Edit
-                  </Button>
-                  <Button
-                    variant="contained"
-                    color="error"
-                    onClick={() => {
-                      setCurrentVoucher(voucher);
-                      setShowDeleteModal(true);
-                    }}
-                  >
-                    Delete
-                  </Button>
+                  </button>
                 </td>
               </tr>
             ))}
@@ -102,12 +90,6 @@ const Vouchers = () => {
         <UpdateVoucherModal
           open={showUpdateModal}
           handleClose={() => setShowUpdateModal(false)}
-          fetchVouchers={fetchVouchers}
-          voucher={currentVoucher}
-        />
-        <DeleteVoucherModal
-          open={showDeleteModal}
-          handleClose={() => setShowDeleteModal(false)}
           fetchVouchers={fetchVouchers}
           voucher={currentVoucher}
         />
