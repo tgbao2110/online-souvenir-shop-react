@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { Modal, Box, Button, Typography, TextField } from "@mui/material";
-import api from "../utils/api";
+import api from "../../../utils/api";
 
 const UpdateCategoryModal = ({ open, handleClose, fetchCategories, category }) => {
   const [name, setName] = useState("");

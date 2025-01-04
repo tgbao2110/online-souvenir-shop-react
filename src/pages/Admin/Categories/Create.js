@@ -1,6 +1,6 @@
 import React, { useState } from "react";
-import { Modal, Box, Button, Typography, TextField } from "@mui/material";
-import api from "../utils/api";
+import { Modal, Box, TextField } from "@mui/material";
+import api from "../../../utils/api";
 
 const CreateCategoryModal = ({ open, handleClose, fetchCategories }) => {
   const [name, setName] = useState("");
@@ -36,9 +36,9 @@ const CreateCategoryModal = ({ open, handleClose, fetchCategories }) => {
       aria-describedby="modal-modal-description"
     >
       <Box sx={{ ...style, width: 400 }}>
-        <Typography id="modal-modal-title" variant="h6" component="h2">
+        <h6>
           Create Category
-        </Typography>
+        </h6>
         <TextField
           fullWidth
           label="Category Name"
@@ -55,23 +55,21 @@ const CreateCategoryModal = ({ open, handleClose, fetchCategories }) => {
           value={description}
           onChange={(e) => setDescription(e.target.value)}
         />
-        <Button
-          variant="contained"
-          component="label"
-        >
-          Upload Image
-          <input
-            type="file"
-            hidden
-            onChange={(e) => setImage(e.target.files[0])}
-          />
-        </Button>
-        <Button variant="contained" color="primary" onClick={handleCreateCategory}>
+        <label>
+          Image
+        </label><br/>
+        <input
+          type="file"
+          accept="image/*"
+          onChange={(e) => setImage(e.target.files[0])}
+        />
+        <br/><br/>
+        <button  className="btn btn-primary me-1" onClick={handleCreateCategory}>
           Save
-        </Button>
-        <Button variant="outlined" color="secondary" onClick={handleClose}>
+        </button>
+        <button  className="btn btn-outline-secondary" onClick={handleClose}>
           Close
-        </Button>
+        </button>
       </Box>
     </Modal>
   );

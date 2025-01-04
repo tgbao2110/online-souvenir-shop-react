@@ -1,8 +1,10 @@
 import React, { useState, useEffect } from "react";
-import { Button, TextField } from "@mui/material";
-import api from "../utils/api";
-import CreateCategoryModal from "../components/CreateCategoryModal";
-import UpdateCategoryModal from "../components/UpdateCategoryModal";
+import { Button } from "@mui/material";
+import api from "../../../utils/api";
+import CreateCategoryModal from "./Create"
+import UpdateCategoryModal from "./Update"
+import AdminLayout from "../../../layout/AdminLayout";
+import TextInput from "../../../components/TextInput";
 
 const Categories = () => {
   const [categories, setCategories] = useState([]);
@@ -34,20 +36,19 @@ const Categories = () => {
   );
 
   return (
+    <AdminLayout>
     <div className="container mt-5">
-      <h1>Categories</h1>
+      <h1 className="text text-primary mb-3">Categories</h1>
       <div className="mb-3">
-        <TextField
-          fullWidth
-          variant="outlined"
-          placeholder="Search categories"
+        <TextInput type="text" className="input-group outline-primary"
           value={searchTerm}
           onChange={handleSearch}
+          placeholder="Search for categories..."
         />
       </div>
-      <Button variant="contained" color="primary" onClick={() => setShowCreateModal(true)}>
+      <button className="btn btn-primary" onClick={() => setShowCreateModal(true)}>
         Add Category
-      </Button>
+      </button>
       <table className="table table-bordered mt-3">
         <thead>
           <tr>
@@ -62,16 +63,15 @@ const Categories = () => {
               <td>{category.name}</td>
               <td>{category.description}</td>
               <td>
-                <Button 
-                  variant="contained" 
-                  color="primary" 
+                <button
+                  className="btn btn-primary mr-2" 
                   onClick={() => {
                     setCurrentCategory(category);
                     setShowUpdateModal(true);
                   }}
                 >
                   Edit
-                </Button>
+                </button>
               </td>
             </tr>
           ))}
@@ -91,6 +91,7 @@ const Categories = () => {
         category={currentCategory}
       />
     </div>
+    </AdminLayout>
   );
 };
 
