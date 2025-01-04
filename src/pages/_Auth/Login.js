@@ -2,9 +2,9 @@ import React, { useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import PasswordInput from "../../components/PasswordInput";
 import TextInput from "../../components/TextInput";
-import { useAuth } from "../../contexts/AuthContext";
+import {useAuth} from '../../contexts/AuthContext';
 const Login = () => {
-  const [email, setEmail] = useState("");
+  const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
   const { login } = useAuth();
@@ -13,13 +13,13 @@ const Login = () => {
     event.preventDefault();
     // Clear previous error messages
     setError("");
-    // Check if email or password is missing
-    if (!email || !password) {
-      setError("Email and password are required");
+    // Check if username or password is missing
+    if (!username || !password) {
+      setError("Username and password are required");
       return;
     }
     // Mock authentication logic
-    if (email.toLowerCase() === "admin") {
+    if (username.toLowerCase() === "admin") {
       login("admin");
       navigate("/admin/dashboard");
     } else {
@@ -43,11 +43,11 @@ const Login = () => {
               {error && <div className="alert alert-danger">{error}</div>}
               <form onSubmit={handleSubmit}>
                 
-                {/* --------------- Email --------------- */}
+                {/* --------------- Username --------------- */}
                 <TextInput
-                  value={email}
-                  onChange={(e) => setEmail(e.target.value)}
-                  placeholder="Email"
+                  value={username}
+                  onChange={(e) => setUsername(e.target.value)}
+                  placeholder="Username"
                 />
                 {/* -------------- Password -------------- */}
                 <PasswordInput
@@ -83,13 +83,11 @@ const Login = () => {
                 <div>
                   
                   <div className="text-center mt-3">
-                    
                     <Link to="/forgotpassword" className="text-primary">
                       Forgot Password?
                     </Link>
                   </div>
                   <div className="text-center">
-                    
                     <span className="text-muted">
                       Don't have an account?
                     </span>

@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import PasswordInput from "../../components/PasswordInput";
 import TextInput from "../../components/TextInput";
 import api from "../../utils/api";
@@ -54,7 +54,7 @@ const Register = () => {
   };
 
   return (
-    <div className="container mt-lg-5">
+    <div className="container mt-4">
       <div className="row justify-content-center">
         <div className="col-md-8">
           <div className="card p-3">
@@ -145,6 +145,14 @@ const Register = () => {
                     Sign up
                   </button>
                 </div>
+                <div className="text-center">
+                    <span className="text-muted">
+                      Already have an account?
+                    </span>
+                    <Link to="/login" className="text-primary">
+                      Login here
+                    </Link>
+                  </div>
               </form>
             </div>
           </div>

@@ -1,7 +1,7 @@
 import { Link } from "react-router-dom";
 import { useAuth } from "../contexts/AuthContext";
 
-export default function Login() {
+export default function NotFound() {
     const { user } = useAuth();
     return (
         <div className="d-flex flex-column align-items-center justify-content-center" style={{ height: "100vh" }}>

@@ -1,12 +1,26 @@
-import logo from './logo.svg';
-import './App.css';
+// src/App.js
+import React from "react";
+import { BrowserRouter as Router, Routes, Route, Navigate } from "react-router-dom";
+import { useAuth } from "./contexts/AuthContext";
+import AdminRoutes from "./routes/AdminRoutes";
+import CustomerRoutes from "./routes/CustomerRoutes";
+import Login from "./pages/_Auth/Login";
+import Register from "./pages/_Auth/Register";
 
-function App() {
+const App = () => {
+  const { role } = useAuth();
+
   return (
-    <div className="App">
-      HI
-    </div>
+    <Router>
+      <Routes>
+        <Route path="/login" element={<Login />} />
+        <Route path="/register" element={<Register />} />
+        {role === "admin" && <Route path="/*" element={<AdminRoutes />} />}
+        {role === "customer" && <Route path="/*" element={<CustomerRoutes />} />}
+        <Route path="*" element={<Navigate to="/login" />} />
+      </Routes>
+    </Router>
   );
-}
+};
 
 export default App;
