@@ -17,8 +17,8 @@ const AdminLayout = ({ children }) => {
         <ul style={styles.sidebarList}>
           <li style={styles.sidebarItem} onClick={() => navigate('/admin')}>Dashboard</li>
           <li style={styles.sidebarItem} onClick={() => navigate('/admin/categories')}>Categories</li>
-          <li style={styles.sidebarItem}>Products</li>
-          <li style={styles.sidebarItem}>Vouchers</li>
+          <li style={styles.sidebarItem} onClick={() => navigate('/admin/products')}>Products</li>
+          <li style={styles.sidebarItem} onClick={() => navigate('/admin/vouchers')}>Vouchers</li>
           <li style={styles.sidebarItem} onClick={() => navigate('/admin/accounts')}>Accounts</li>
           <li style={styles.sidebarItem} onClick={handleLogout}>Logout</li>
         </ul>

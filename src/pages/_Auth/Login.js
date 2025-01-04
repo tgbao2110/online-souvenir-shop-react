@@ -24,17 +24,14 @@ const Login = () => {
     }
 
     try {
-      // API call to login
       const response = await api.post('/Account/login', {
         userName: username,
         password: password
       });
 
-      // Save the token (assuming token is in response.data.token)
       const token = response.data.token;
       localStorage.setItem('authToken', token);
 
-      // Mock authentication logic
       if (username.toLowerCase() === "admin@gmail.com") {
         login("admin");
         navigate("/admin/dashboard");

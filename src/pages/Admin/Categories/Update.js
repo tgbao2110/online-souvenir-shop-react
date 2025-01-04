@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Modal, Box, Button, Typography, TextField } from "@mui/material";
+import { Modal, Box, Button, TextField } from "@mui/material";
 import api from "../../../utils/api";
 
 const UpdateCategoryModal = ({ open, handleClose, fetchCategories, category }) => {
@@ -13,19 +13,15 @@ const UpdateCategoryModal = ({ open, handleClose, fetchCategories, category }) =
       setName(category.name);
       setDescription(category.description);
       setExistingImage(category.imageUrl);
+      console.log(image);
     }
   }, [category]);
 
   const handleUpdateCategory = async () => {
     const formData = new FormData();
-    formData.append("Name", name);
-    formData.append("Description", description);
-
-    if (image) {
-      formData.append("File", image);
-    } else if (existingImage) {
-      formData.append("ExistingFilePath", existingImage);
-    }
+    formData.append("name", name);
+    formData.append("description", description);
+    formData.append("file", image);
 
     try {
       await api.put(`/Category/${category.id}`, formData, {
@@ -40,6 +36,18 @@ const UpdateCategoryModal = ({ open, handleClose, fetchCategories, category }) =
     }
   };
 
+  const getFileFromUrl = async (url, fileName) => {
+    try {
+      const response = await fetch(url);
+      const blob = await response.blob();
+      const file = new File([blob], fileName, { type: blob.type });
+      return file;
+    } catch (error) {
+      console.error("Error fetching file:", error);
+      return null;
+    }
+  };
+
   return (
     <Modal
       open={open}
@@ -48,9 +56,6 @@ const UpdateCategoryModal = ({ open, handleClose, fetchCategories, category }) =
       aria-describedby="modal-modal-description"
     >
       <Box sx={{ ...style, width: 400 }}>
-        <Typography id="modal-modal-title" variant="h6" component="h2">
-          Update Category
-        </Typography>
         <TextField
           fullWidth
           label="Category Name"
@@ -67,9 +72,7 @@ const UpdateCategoryModal = ({ open, handleClose, fetchCategories, category }) =
           value={description}
           onChange={(e) => setDescription(e.target.value)}
         />
-        <Typography variant="body2" gutterBottom>
-          Current Image:
-        </Typography>
+        <br/><br/>
         {existingImage && (
           <img
             src={`https://localhost:7096/${existingImage}`}
@@ -77,26 +80,21 @@ const UpdateCategoryModal = ({ open, handleClose, fetchCategories, category }) =
             width="100"
           />
         )}
-        <br />
+        <br/>
         <label>Upload New Image</label>
         <input
           type="file"
           onChange={(e) => setImage(e.target.files[0])}
         />
-        <br />
-        <br />
+        <br/><br/>
         <div className="d-flex">
-          <Button
-            className="me-2"
-            variant="contained"
-            color="primary"
-            onClick={handleUpdateCategory}
+          <button className="btn btn-primary me-2" onClick={handleUpdateCategory}
           >
             Save
-          </Button>
-          <Button variant="outlined" color="black" onClick={handleClose}>
+          </button>
+          <button className="btn btn-outline-secondary" onClick={handleClose}>
             Close
-          </Button>
+          </button>
         </div>
       </Box>
     </Modal>

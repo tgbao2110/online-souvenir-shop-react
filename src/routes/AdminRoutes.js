@@ -2,6 +2,7 @@
 import { Route, Routes } from "react-router-dom";
 import Dashboard from "../pages/Admin/_Dashboard/Dashboard";
 import Categories from "../pages/Admin/Categories/_Categories";
+import Products from "../pages/Admin/Products/_Products";
 import Accounts from "../pages/Admin/Accounts/_Accounts";
 // Import other admin components
 
@@ -10,6 +11,7 @@ const AdminRoutes = () => (
     <Route path="/admin/dashboard" element={<Dashboard />} />
     <Route path="/admin/accounts" element={<Accounts />} />
     <Route path="/admin/categories" element={<Categories />} />
+    <Route path="/admin/products" element={<Products />} />
   </Routes>
 );
 

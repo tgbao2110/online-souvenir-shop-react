@@ -2,8 +2,6 @@ import React, { useState, useEffect } from "react";
 import {
   Modal,
   Box,
-  Button,
-  Typography,
   TextField,
   Select,
   FormControl,
@@ -45,19 +43,19 @@ const UpdateProductModal = ({ open, handleClose, fetchProducts, product }) => {
       setExistingImage(product.imageUrl);
     }
   }, [product]);
-  const handleUpdateCategory = async () => {
+  const handleUpdateProduct = async () => {
     const formData = new FormData();
-    formData.append("Name", name);
-    formData.append("Description", description);
-    formData.append("StockQuantity", stock);
-    formData.append("SoldQuantity", sold);
-    formData.append("BasePrice", price);
-    formData.append("DiscountPrice", discountPrice);
-    formData.append("CategoryId", categoryId);
+    formData.append("name", name);
+    formData.append("description", description);
+    formData.append("stockQuantity", stock);
+    formData.append("soldQuantity", sold);
+    formData.append("nasePrice", price);
+    formData.append("discountPrice", discountPrice);
+    formData.append("categoryId", categoryId);
     if (image) {
-      formData.append("File", image);
+      formData.append("file", image);
     } else if (existingImage) {
-      formData.append("ExistingFilePath", existingImage);
+      formData.append("file", "https://localhost:7096" + product.imageUrl);
     }
     try {
       await api.put(`/Category/${product.id}`, formData, {
@@ -69,6 +67,7 @@ const UpdateProductModal = ({ open, handleClose, fetchProducts, product }) => {
       console.error("Error updating category", error);
     }
   };
+
   return (
     <Modal
       open={open}
@@ -76,127 +75,114 @@ const UpdateProductModal = ({ open, handleClose, fetchProducts, product }) => {
       aria-labelledby="modal-modal-title"
       aria-describedby="modal-modal-description"
     >
-      
       <Box sx={{ ...style, width: 800 }}>
-        
-        <Typography id="modal-modal-title" variant="h6" component="h2">
-          
-          Create Product
-        </Typography>
-        <table style={{ width: "100%" }}>
-          
+        <table>
           <td>
-            
-            <TextField
-              required
-              fullWidth
-              label="Product Name"
-              variant="outlined"
-              margin="normal"
-              value={name}
-              onChange={(e) => setName(e.target.value)}
-            />
-            <br />
-            <TextField
-              required
-              fullWidth
-              label="Description"
-              variant="outlined"
-              margin="normal"
-              value={description}
-              onChange={(e) => setDescription(e.target.value)}
-            />
-            <br /> <label>Upload Image</label>
-            <br />
-            <input
-              className="mb-4"
-              type="file"
-              onChange={(e) => setImage(e.target.files[0])}
-            />
-            {existingImage && (
-              <img
-                src={`https://localhost:7096/${existingImage}`}
-                alt="Current"
-                width="100"
+            <div className="me-lg-3" style={{ transform: "translateY(-4.5%)" }}>
+              <TextField
+                required
+                fullWidth
+                label="Product Name"
+                variant="outlined"
+                margin="normal"
+                value={name}
+                onChange={(e) => setName(e.target.value)}
               />
-            )}
-            <br />
-            <br />
-            <FormControl fullWidth>
-              
-              <InputLabel id="demo-simple-select-label">
-                Category
-              </InputLabel>
-              <Select
-                labelId="demo-simple-select-label"
-                id="demo-simple-select"
-                value={categoryId}
-                onChange={(e) => setCategoryId(e.target.value)}
-              >
-                
-                {categories.map((category) => (
-                  <MenuItem value={category.id}> {category.name} </MenuItem>
-                ))}
-              </Select>
-            </FormControl>
+              <br />
+              <TextField
+                required
+                fullWidth
+                label="Description"
+                variant="outlined"
+                margin="normal"
+                value={description}
+                onChange={(e) => setDescription(e.target.value)}
+              />
+              <br />
+              <br />
+              {existingImage && (
+                <img
+                  src={`https://localhost:7096/${existingImage}`}
+                  alt="Current"
+                  width="100"
+                />
+              )}
+              <br />
+              <label>Upload New Image</label>
+              <input
+                type="file"
+                onChange={(e) => setImage(e.target.files[0])}
+              />
+            </div>
           </td>
-          <td style={{ width: "2%" }}></td>
           <td>
-            
-            <TextField
-              fullWidth
-              required
-              label="Stock Quantity"
-              variant="outlined"
-              margin="normal"
-              value={stock}
-              onChange={(e) => setStock(e.target.value)}
-            />
-            <TextField
-              fullWidth
-              label="Sold Quantity"
-              variant="outlined"
-              margin="normal"
-              value={sold}
-              onChange={(e) => setSold(e.target.value)}
-            />
-            <TextField
-              fullWidth
-              required
-              label="Price"
-              variant="outlined"
-              margin="normal"
-              value={price}
-              onChange={(e) => setPrice(e.target.value)}
-            />
-            <TextField
-              fullWidth
-              required
-              label="Discount Price"
-              variant="outlined"
-              margin="normal"
-              value={discountPrice}
-              onChange={(e) => setDiscountPrice(e.target.value)}
-            />
+            <div>
+              <FormControl fullWidth>
+                <InputLabel id="demo-simple-select-label">Category</InputLabel>
+                <Select
+                  className="mb-2"
+                  labelId="demo-simple-select-label"
+                  id="demo-simple-select"
+                  value={categoryId}
+                  onChange={(e) => setCategoryId(e.target.value)}
+                >
+                  {categories.map((category) => (
+                    <MenuItem value={category.id}> {category.name} </MenuItem>
+                  ))}
+                </Select>
+              </FormControl>
+
+              <TextField
+                fullWidth
+                required
+                label="Stock Quantity"
+                variant="outlined"
+                margin="normal"
+                value={stock}
+                onChange={(e) => setStock(e.target.value)}
+              />
+              <TextField
+                fullWidth
+                label="Sold Quantity"
+                variant="outlined"
+                margin="normal"
+                value={sold}
+                onChange={(e) => setSold(e.target.value)}
+              />
+              <TextField
+                fullWidth
+                required
+                label="Price"
+                variant="outlined"
+                margin="normal"
+                value={price}
+                onChange={(e) => setPrice(e.target.value)}
+              />
+              <TextField
+                fullWidth
+                required
+                label="Discount Price"
+                variant="outlined"
+                margin="normal"
+                value={discountPrice}
+                onChange={(e) => setDiscountPrice(e.target.value)}
+              />
+            </div>
+          </td>
+          <td>
+            <div className="me-lg-3"></div>
           </td>
         </table>
-        <br />
-        <br />
         <div className="d-flex">
-          
-          <Button
-            className="me-2"
-            variant="contained"
-            color="primary"
-            onClick={handleUpdateCategory}
+          <button
+            className="btn btn-primary me-2"
+            onClick={handleUpdateProduct}
           >
-            
             Save
-          </Button>
-          <Button variant="outlined" color="black" onClick={handleClose}>
-            
+          </button>
+          <button className="btn btn-outline-secondary" onClick={handleClose}>
             Close
-          </Button>
+          </button>
         </div>
       </Box>
     </Modal>

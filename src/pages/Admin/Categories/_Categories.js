@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from "react";
-import { Button } from "@mui/material";
 import api from "../../../utils/api";
-import CreateCategoryModal from "./Create"
-import UpdateCategoryModal from "./Update"
 import AdminLayout from "../../../layout/AdminLayout";
 import TextInput from "../../../components/TextInput";
+
+import CreateCategoryModal from "./Create"
+import UpdateCategoryModal from "./Update"
 
 const Categories = () => {
   const [categories, setCategories] = useState([]);
@@ -31,8 +31,7 @@ const Categories = () => {
   };
 
   const filteredCategories = categories.filter((category) =>
-    category.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-    category.description.toLowerCase().includes(searchTerm.toLowerCase())
+    category.name.toLowerCase().includes(searchTerm.toLowerCase())
   );
 
   return (

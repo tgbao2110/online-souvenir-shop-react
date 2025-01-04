@@ -12,7 +12,7 @@ const CreateCategoryModal = ({ open, handleClose, fetchCategories }) => {
     formData.append("name", name);
     formData.append("description", description);
     if (image) {
-      formData.append("image", image);
+      formData.append("file", image);
     }
 
     try {
@@ -36,9 +36,6 @@ const CreateCategoryModal = ({ open, handleClose, fetchCategories }) => {
       aria-describedby="modal-modal-description"
     >
       <Box sx={{ ...style, width: 400 }}>
-        <h6>
-          Create Category
-        </h6>
         <TextField
           fullWidth
           label="Category Name"
