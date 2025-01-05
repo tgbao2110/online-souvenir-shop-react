@@ -219,6 +219,14 @@ h1,h2,h3,h4,h5,h6 {
   white-space: nowrap;
 }
 
+.product-card {
+  transition: transform 0.2s;
+  cursor: pointer;
+}
+
+.product-card:hover {
+  transform: scale(1.05);
+}
 
 
 /* Preloader */

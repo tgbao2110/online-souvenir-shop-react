@@ -12,9 +12,10 @@ import {
   InputLabel,
   Pagination,
 } from "@mui/material";
+import { useNavigate } from "react-router-dom";
 import api from "../../utils/api";
 import fCurrency from "../../utils/FormatCurrency";
-import CustomerLayout from "../../layout/CustomerLayout";
+import CustomerLayout from "../../layout/CustomerLayout"; // Import your CSS file
 
 const Products = () => {
   const [products, setProducts] = useState([]);
@@ -24,6 +25,8 @@ const Products = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const [productsPerPage, setProductsPerPage] = useState(6); // You can change this value
   const [error, setError] = useState("");
+
+  const navigate = useNavigate();
 
   useEffect(() => {
     fetchProducts();
@@ -68,6 +71,10 @@ const Products = () => {
     setCurrentPage(value);
   };
 
+  const handleProductClick = (productId) => {
+    navigate(`/product/${productId}`);
+  };
+
   const filteredProducts = products.filter((product) => {
     const matchesSearchTerm = product.name.toLowerCase().includes(searchTerm.toLowerCase());
     const matchesCategory = selectedCategory ? product.categoryId === selectedCategory : true;
@@ -109,7 +116,10 @@ const Products = () => {
         <Grid container spacing={4}>
           {currentProducts.map((product) => (
             <Grid item xs={12} sm={6} md={4} key={product.id}>
-              <Card>
+              <Card
+                className="product-card" // Add CSS class for hover effect
+                onClick={() => handleProductClick(product.id)} // Add click handler
+              >
                 <CardMedia
                   component="img"
                   height="140"
