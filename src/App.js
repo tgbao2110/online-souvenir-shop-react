@@ -7,6 +7,8 @@ import AdminRoutes from "./routes/AdminRoutes";
 import CustomerRoutes from "./routes/CustomerRoutes";
 import Login from "./pages/_Auth/Login";
 import Register from "./pages/_Auth/Register";
+import Products from "./pages/Customer/Products";
+import About from "./pages/Customer/About";
 
 const App = () => {
   const { role } = useAuth();
@@ -17,6 +19,8 @@ const App = () => {
         <Route path="/" element={<Home />} />
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
+        <Route path="/products" element={<Products />} />
+        <Route path="/about" element={<About />} />
         {role === "admin" && <Route path="/*" element={<AdminRoutes />} />}
         {role === "customer" && <Route path="/*" element={<CustomerRoutes />} />}
         <Route path="*" element={<Navigate to="/login" />} />

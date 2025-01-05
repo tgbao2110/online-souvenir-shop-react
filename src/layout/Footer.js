@@ -7,7 +7,7 @@ const Footer = () => {
 
           <div class="col-lg-3 col-md-6 col-sm-6">
             <div class="footer-menu">
-              <img src="images/logo.png" width="240" height="70" alt="logo"/>
+              <img style={{ width: "200px", height: "200px" }} src="images/logo.png" alt="logo"/>
               <div class="social-links mt-3">
               </div>
             </div>

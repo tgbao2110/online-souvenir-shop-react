@@ -37,17 +37,12 @@ const Header = () => {
               </Link>
             </li>
             <li className="nav-item active">
-              <a href="index.html" className="nav-link">
-                Categories
-              </a>
-            </li>
-            <li className="nav-item active">
               <a href="/products" className="nav-link">
-                Products
+                Shop now
               </a>
             </li>
             <li className="nav-item active">
-              <a href="index.html" className="nav-link">
+              <a href="/about" className="nav-link">
                 About us
               </a>
             </li>
