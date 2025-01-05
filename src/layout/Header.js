@@ -13,7 +13,7 @@ const Header = () => {
         {/* --------------- Logo --------------- */}
         <div className="col-sm-4 col-md-2 d-flex align-items-center">
           <Link to="/">
-            <img src="images/logo.svg" alt="logo" className="img-fluid" />
+            <img style={{ width: "70px", height: "70px" }} src="images/logo.png" alt="logo" className="img-fluid" />
           </Link>
           <button
             className="navbar-toggler ms-3"
