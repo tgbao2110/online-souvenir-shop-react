@@ -234,12 +234,17 @@ const ProductDetail = () => {
                 product.reviews.map((review) => (
                   <div key={review.id} className="review mb-4">
                     <Box display="flex" alignItems="center" mb={2}>
-                      <Avatar
+                      {review.customer.avatarUrl? <Avatar
                         className="avatar"
                         style={{ transform: "translateY(-30%)" }}
                         src={`https://localhost:7096/${review.customer.avatarUrl}`}
                         alt={review.customer.userName}
-                      />
+                      />:
+                      <Avatar
+                        className="avatar"
+                        style={{ transform: "translateY(-30%)" }}
+                      >review.customer.userName[0].toUpperCase()</Avatar>
+                      }
                       <Box ml={2}>
                         <strong>{review.customer.userName}</strong>
                         <p>{review.comment}</p>

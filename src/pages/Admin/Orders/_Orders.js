@@ -1,9 +1,8 @@
 import React, { useState, useEffect } from "react";
-import { MenuItem, Select, FormControl, InputLabel, TextField, Box } from "@mui/material";
+import { MenuItem, Select, FormControl, InputLabel, TextField } from "@mui/material";
 import api from "../../../utils/api";
 import AdminLayout from "../../../layout/AdminLayout";
 import OrderDetailModal from "./OrderDetail";
-import TextInput from "../../../components/TextInput";
 
 const Orders = () => {
   const [orders, setOrders] = useState([]);
@@ -11,7 +10,7 @@ const Orders = () => {
   const [statusFilter, setStatusFilter] = useState("");
   const [error, setError] = useState("");
   const [showDetailsModal, setShowDetailsModal] = useState(false);
-  const [currentOrder, setCurrentOrder] = useState(null);
+  const [currentOrderId, setCurrentOrderId] = useState(null);
 
   useEffect(() => {
     fetchOrders();
@@ -36,6 +35,12 @@ const Orders = () => {
     setStatusFilter(e.target.value);
   };
 
+  const handleShowDetails = (orderId) => {
+    console.log("Selected Order ID for Details:", orderId);
+    setCurrentOrderId(orderId);
+    setShowDetailsModal(true);
+  };
+
   const filteredOrders = orders.filter((order) =>
     order.id.toLowerCase().includes(searchTerm.toLowerCase()) &&
     (statusFilter === "" || order.status.toString() === statusFilter)
@@ -43,7 +48,7 @@ const Orders = () => {
 
   const handleChangeStatus = async (orderId, status) => {
     try {
-      const response = await api.put(`/Order/${orderId}`, { status }, {
+      const response = await api.put(`/Order/${orderId}`, status, {
         headers: {
           'Content-Type': 'application/json'
         }
@@ -120,10 +125,7 @@ const Orders = () => {
                 <td>
                   <button
                     className="btn btn-primary mr-2" 
-                    onClick={() => {
-                      setCurrentOrder(order);
-                      setShowDetailsModal(true);
-                    }}
+                    onClick={() => handleShowDetails(order.id)}
                   >
                     Details
                   </button>
@@ -135,7 +137,7 @@ const Orders = () => {
         <OrderDetailModal
           open={showDetailsModal}
           handleClose={() => setShowDetailsModal(false)}
-          order={currentOrder}
+          orderId={currentOrderId}
         />
       </div>
     </AdminLayout>

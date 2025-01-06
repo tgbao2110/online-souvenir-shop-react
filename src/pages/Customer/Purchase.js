@@ -90,7 +90,7 @@ const Purchase = () => {
                       <td className="py-4">
                         <div className="total-price">
                           <span className="money text-dark">
-                            {/* {fCurrency(item.quantity * item.product.discountPrice)} */}
+                            {fCurrency(item.quantity * item.product.discountPrice)}
                           </span>
                         </div>
                       </td>
