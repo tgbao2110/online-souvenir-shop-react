@@ -1,11 +1,12 @@
 import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
 import { useAuth } from '../contexts/AuthContext';
 
 import ExitToAppRoundedIcon from '@mui/icons-material/ExitToAppRounded';
 
 const AdminLayout = ({ children }) => {
   const navigate = useNavigate(); // Use useNavigate in Layout
+  const location = useLocation(); // Use useLocation to get the current path
   const [hoveredItem, setHoveredItem] = useState(null);
   const { logout } = useAuth();
 
@@ -38,6 +39,7 @@ const AdminLayout = ({ children }) => {
               style={{
                 ...styles.sidebarItem,
                 ...(hoveredItem === index ? styles.sidebarItemHover : {}),
+                ...(location.pathname === item.path ? styles.sidebarItemActive : {}),
               }}
               onClick={item.onClick || (() => navigate(item.path))}
               onMouseEnter={() => handleMouseEnter(index)}
@@ -91,6 +93,10 @@ const styles = {
   sidebarItemHover: {
     backgroundColor: '#ddd',
     color: '#000',
+  },
+  sidebarItemActive: {
+    backgroundColor: '#ccc',
+    fontWeight: 'bold',
   },
   content: {
     flex: 1,

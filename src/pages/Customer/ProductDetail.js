@@ -2,6 +2,7 @@ import { React, useState, useEffect } from "react";
 import { Snackbar, Alert, TextField, Button, Avatar, Box } from "@mui/material";
 import { useParams } from "react-router-dom";
 import { useAuth } from "../../contexts/AuthContext";
+import { useNavigate } from "react-router-dom";
 import api from "../../utils/api";
 import fCurrency from "../../utils/FormatCurrency";
 import CustomerLayout from "../../layout/CustomerLayout";
@@ -21,6 +22,7 @@ const ProductDetail = () => {
   }, [id]);
 
   const { role } = useAuth();
+  const navigate = useNavigate();
 
   const fetchProductDetails = async () => {
     try {
@@ -33,9 +35,15 @@ const ProductDetail = () => {
   };
 
   const handleFavourite = async () => {
-    if (role === "guest") window.location.href = "/login";
+    if (role === "guest") navigate("/login");
+    console.log(product.id);
     try {
-      await api.post("/Product/add-favourite", { productId: product.id });
+      await api.post('/Product/add-favorite', `"${product.id}"`, {
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      });
+      
       setAlertMessage("Added to favourites successfully!");
       setAlertSeverity("success");
     } catch (error) {
@@ -47,7 +55,7 @@ const ProductDetail = () => {
   };
 
   const handleCart = async () => {
-    if (role === "guest") window.location.href = "/login";
+    if (role === "guest") navigate("/login");
     try {
       await api.post("/Cart", { productId: product.id, quantity });
       setAlertMessage("Added to cart successfully!");
@@ -61,7 +69,7 @@ const ProductDetail = () => {
   };
 
   const handleAddReview = async () => {
-    if (role === "guest") window.location.href = "/login";
+    if (role === "guest") navigate("/login");
     try {
       const response = await api.post("/Comment", {
         productId: product.id,  
@@ -200,7 +208,7 @@ const ProductDetail = () => {
           </div>
           <div>
             {/* Add Review Section */}
-            <div className="add-review mt-5">
+            {role != "guest" && (<div className="add-review mt-5">
               <h5>Add Your Review</h5>
               <TextField
                 className="mt-3"
@@ -218,7 +226,7 @@ const ProductDetail = () => {
               >
                 Send
               </button>
-            </div>
+            </div>)}
             {/* Reviews Section */}
             <div className="reviews mt-5">
               <h5>Reviews</h5>

@@ -16,7 +16,7 @@ const UpdateProductModal = ({ open, handleClose, fetchProducts, product }) => {
   const [sold, setSold] = useState(0);
   const [price, setPrice] = useState(0);
   const [discountPrice, setDiscountPrice] = useState(0);
-  const [categoryId, setCategoryId] = useState(null);
+  const [categoryId, setCategoryId] = useState("");
   const [categories, setCategories] = useState([]);
   const [image, setImage] = useState(null);
   const [existingImage, setExistingImage] = useState("");
@@ -57,6 +57,7 @@ const UpdateProductModal = ({ open, handleClose, fetchProducts, product }) => {
     } else if (existingImage) {
       formData.append("file", "https://localhost:7096" + product.imageUrl);
     }
+    for (let [key, value] of formData.entries()) { console.log(`${key}: ${value}`); }
     try {
       await api.put(`/Category/${product.id}`, formData, {
         headers: { "Content-Type": "multipart/form-data" },

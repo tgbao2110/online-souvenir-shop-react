@@ -5,7 +5,6 @@ import { useAuth } from "../contexts/AuthContext";
 import { useNavigate } from "react-router-dom";
 const Header = () => {
   const { role } = useAuth();
-  const navigate = useNavigate();
 
   return (
     <div className="container-fluid">

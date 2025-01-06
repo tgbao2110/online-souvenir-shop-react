@@ -23,9 +23,11 @@ const Products = () => {
   const [searchTerm, setSearchTerm] = useState("");
   const [selectedCategory, setSelectedCategory] = useState("");
   const [currentPage, setCurrentPage] = useState(1);
-  const [productsPerPage, setProductsPerPage] = useState(6); // You can change this value
   const [error, setError] = useState("");
 
+  const productsPerPage = 6;
+  const totalPages = 2;
+  
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -152,7 +154,7 @@ const Products = () => {
         </Grid>
         <Box display="flex" justifyContent="center" mt={4}>
           <Pagination
-            count={Math.ceil(filteredProducts.length / productsPerPage)}
+            count={totalPages}
             page={currentPage}
             onChange={handlePageChange}
           />

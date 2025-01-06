@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import {Pagination} from "@mui/material";
 import api from "../../../utils/api";
 import AdminLayout from "../../../layout/AdminLayout";
 import TextInput from "../../../components/TextInput";
@@ -14,6 +15,10 @@ const Products = () => {
   const [showCreateModal, setShowCreateModal] = useState(false);
   const [showUpdateModal, setShowUpdateModal] = useState(false);
   const [currentProduct, setCurrentProduct] = useState(null);
+  const [currentPage, setCurrentPage] = useState(1);
+
+  const productsPerPage = 6;
+  const totalPages = 2;
 
   useEffect(() => {
     fetchProducts();
@@ -49,11 +54,21 @@ const Products = () => {
 
   const handleSearch = (e) => {
     setSearchTerm(e.target.value);
+    setCurrentPage(1);
+  };
+
+  const handlePageChange = (event, value) => {
+    setCurrentPage(value);
   };
 
   const filteredProducts = products.filter((product) =>
     product.name.toLowerCase().includes(searchTerm.toLowerCase())
   );
+
+  const indexOfLastProduct = currentPage * productsPerPage;
+  const indexOfFirstProduct = indexOfLastProduct - productsPerPage;
+  const currentProducts = filteredProducts.slice(indexOfFirstProduct, indexOfLastProduct);
+
 
   return (
     <AdminLayout>
@@ -89,7 +104,7 @@ const Products = () => {
             </tr>
           </thead>
           <tbody>
-            {filteredProducts.map((product) => (
+            {currentProducts.map((product) => (
               <tr key={product.id}>
                 <td>{product.name}</td>
                 <td>{product.description}</td>
@@ -114,6 +129,14 @@ const Products = () => {
             ))}
           </tbody>
         </table>
+
+        <div className="d-flex justify-content-center">
+          <Pagination
+            count={totalPages}
+            page={currentPage}
+            onChange={handlePageChange}
+          />
+        </div>
 
         <CreateProductModal
           open={showCreateModal}

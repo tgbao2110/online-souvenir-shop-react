@@ -24,14 +24,21 @@ const Favourite = () => {
   };
 
   const handleRemoveFavorite = async (productId) => {
+    console.log(productId);
     try {
-      await api.post("/Product/remove-favorite", { productId });
-      fetchFavorites(); // Refresh favorites after removing
+      await api.delete("/Product/remove-favorite", {
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        data: `"${productId}"`,
+      });
+      fetchFavorites();
     } catch (error) {
       console.error("Error removing favorite", error);
       setError(error.message);
     }
   };
+  
 
   return (
     <CustomerLayout>

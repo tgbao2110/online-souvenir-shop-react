@@ -1,12 +1,12 @@
 import React, { useState } from "react";
-import { useLocation } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import CustomerLayout from "../../layout/CustomerLayout";
 import fCurrency from "../../utils/FormatCurrency";
 import api from "../../utils/api";
-import { useNavigate as navigate } from "react-router-dom";
 
 const Purchase = () => {
   const location = useLocation();
+  const navigate = useNavigate();
   const { order } = location.state || {};
   const [alertMessage, setAlertMessage] = useState("");
 
@@ -43,13 +43,63 @@ const Purchase = () => {
           <p><strong>Total:</strong> {fCurrency(order.total)}</p>
 
           <h4 className="mt-4">Order Items</h4>
-          <ul>
-            {order.orderItems.map((item) => (
-              <li key={item.id}>
-                Product ID: {item.productId}, Quantity: {item.quantity}
-              </li>
-            ))}
-          </ul>
+          <div className="col-md-8">
+            <div className="table-responsive cart">
+              <table className="table">
+                <thead>
+                  <tr>
+                    <th
+                      scope="col"
+                      className="card-title text-uppercase text-muted"
+                    >
+                      Product
+                    </th>
+                    <th
+                      scope="col"
+                      className="card-title text-uppercase text-muted"
+                    >
+                      Quantity
+                    </th>
+                    <th
+                      scope="col"
+                      className="card-title text-uppercase text-muted"
+                    >
+                      Subtotal
+                    </th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {order.orderItems.map((item) => (
+                    <tr key={item.id}>
+                      <td className="py-3" scope="row">
+                        <div className="cart-info d-flex flex-wrap align-items-center mb-4">
+                          <div className="col-lg-9">
+                            <div className="card-detail py-3">
+                              <h6 className="card-title">
+                                  {item.productId}
+                              </h6>
+                            </div>
+                          </div>
+                        </div>
+                      </td>
+                      <td className="py-4">
+                        <div className="input-group product-qty w-50">
+                          {item.quantity}
+                        </div>
+                      </td>
+                      <td className="py-4">
+                        <div className="total-price">
+                          <span className="money text-dark">
+                            {/* {fCurrency(item.quantity * item.product.discountPrice)} */}
+                          </span>
+                        </div>
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+          </div>
         </div>
 
         {/* ------ Button ------ */}

@@ -33,6 +33,20 @@ const CreateProductModal = ({ open, handleClose, fetchProducts }) => {
     loadCategories();
   }, []);
 
+  useEffect(() => {
+    if (open) {
+      // Clear all fields when modal opens
+      setName("");
+      setDescription("");
+      setStock(0);
+      setSold(0);
+      setPrice(0);
+      setDiscountPrice(0);
+      setCategoryId(null);
+      setImage(null);
+    }
+  }, [open]);
+
   const handleCreateProduct = async () => {
     const formData = new FormData();
     formData.append("name", name);
@@ -68,80 +82,80 @@ const CreateProductModal = ({ open, handleClose, fetchProducts }) => {
         <table>
           <td>
             <div className="me-lg-3" style={{ transform: "translateY(-6.5%)" }}>
-            <TextField
-              required
-              fullWidth
-              label="Product Name"
-              variant="outlined"
-              margin="normal"
-              value={name}
-              onChange={(e) => setName(e.target.value)}
-            />
-            <br />
-            <TextField
-              required
-              fullWidth
-              label="Description"
-              variant="outlined"
-              margin="normal"
-              value={description}
-              onChange={(e) => setDescription(e.target.value)}
-            />
-            <label>Upload Image</label>
-            <input type="file" onChange={(e) => setImage(e.target.files[0])} />
+              <TextField
+                required
+                fullWidth
+                label="Product Name"
+                variant="outlined"
+                margin="normal"
+                value={name}
+                onChange={(e) => setName(e.target.value)}
+              />
+              <br />
+              <TextField
+                required
+                fullWidth
+                label="Description"
+                variant="outlined"
+                margin="normal"
+                value={description}
+                onChange={(e) => setDescription(e.target.value)}
+              />
+              <label>Upload Image</label>
+              <input type="file" onChange={(e) => setImage(e.target.files[0])} />
             </div>
           </td>
           <td>
             <div>
-            <FormControl fullWidth>
-              <InputLabel id="demo-simple-select-label">Category</InputLabel>
-              <Select
-                className="mb-2"
-                labelId="demo-simple-select-label"
-                id="demo-simple-select"
-                value={categoryId}
-                onChange={(e) => setCategoryId(e.target.value)}
-              >
-                {categories.map((category) => (
-                  <MenuItem value={category.id}>{category.name}</MenuItem>
-                ))}
-              </Select>
-            </FormControl>
-            <TextField
-              fullWidth
-              required
-              label="Stock Quantity"
-              variant="outlined"
-              margin="normal"
-              value={stock}
-              onChange={(e) => setStock(e.target.value)}
-            />
-            <TextField
-              fullWidth
-              label="Sold Quantity"
-              variant="outlined"
-              margin="normal"
-              value={sold}
-              onChange={(e) => setSold(e.target.value)}
-            />
-            <TextField
-              fullWidth
-              required
-              label="Price"
-              variant="outlined"
-              margin="normal"
-              value={price}
-              onChange={(e) => setPrice(e.target.value)}
-            />
-            <TextField
-              fullWidth
-              required
-              label="Discount Price"
-              variant="outlined"
-              margin="normal"
-              value={discountPrice}
-              onChange={(e) => setDiscountPrice(e.target.value)}
-            />
+              <FormControl fullWidth>
+                <InputLabel id="demo-simple-select-label">Category</InputLabel>
+                <Select
+                  className="mb-2"
+                  labelId="demo-simple-select-label"
+                  id="demo-simple-select"
+                  value={categoryId}
+                  onChange={(e) => setCategoryId(e.target.value)}
+                >
+                  {categories.map((category) => (
+                    <MenuItem key={category.id} value={category.id}>{category.name}</MenuItem>
+                  ))}
+                </Select>
+              </FormControl>
+              <TextField
+                fullWidth
+                required
+                label="Stock Quantity"
+                variant="outlined"
+                margin="normal"
+                value={stock}
+                onChange={(e) => setStock(e.target.value)}
+              />
+              <TextField
+                fullWidth
+                label="Sold Quantity"
+                variant="outlined"
+                margin="normal"
+                value={sold}
+                onChange={(e) => setSold(e.target.value)}
+              />
+              <TextField
+                fullWidth
+                required
+                label="Price"
+                variant="outlined"
+                margin="normal"
+                value={price}
+                onChange={(e) => setPrice(e.target.value)}
+              />
+              <TextField
+                fullWidth
+                required
+                label="Discount Price"
+                variant="outlined"
+                margin="normal"
+                value={discountPrice}
+                onChange={(e) => setDiscountPrice(e.target.value)}
+              />
             </div>
           </td>
           <td>

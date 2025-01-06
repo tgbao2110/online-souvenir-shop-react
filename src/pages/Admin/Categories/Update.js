@@ -36,18 +36,6 @@ const UpdateCategoryModal = ({ open, handleClose, fetchCategories, category }) =
     }
   };
 
-  const getFileFromUrl = async (url, fileName) => {
-    try {
-      const response = await fetch(url);
-      const blob = await response.blob();
-      const file = new File([blob], fileName, { type: blob.type });
-      return file;
-    } catch (error) {
-      console.error("Error fetching file:", error);
-      return null;
-    }
-  };
-
   return (
     <Modal
       open={open}

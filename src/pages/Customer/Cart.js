@@ -97,9 +97,9 @@ const Cart = () => {
       </CustomerLayout>
     );
   }
-  const calculateSubtotal = () => {
+  const calculateTotal = () => {
     return cart.cartItems.reduce(
-      (total, item) => total + item.quantity * item.product.basePrice,
+      (total, item) => total + item.quantity * item.product.discountPrice,
       0
     );
   };
@@ -146,7 +146,7 @@ const Cart = () => {
                             <div className="card-detail py-3">
                               <h6 className="card-title">
                                 <a
-                                  href={`/product/${item.product.id}`}
+                                  onClick={() => navigate(`/product/${item.product.id}`)}
                                   className="text-decoration-none"
                                 >
                                   {item.product.name}
@@ -174,7 +174,7 @@ const Cart = () => {
                       <td className="py-4">
                         <div className="total-price">
                           <span className="money text-dark">
-                            {fCurrency(item.quantity * item.product.basePrice)}
+                            {fCurrency(item.quantity * item.product.discountPrice)}
                           </span>
                         </div>
                       </td>
@@ -197,24 +197,15 @@ const Cart = () => {
 
           {/* ---------- Cart Total ---------- */}
           <div className="col-md-4">
-            <div className="cart-totals bg-grey py-5">
-              <h4 className="text-dark pb-4">Cart Total</h4>
-              <div className="total-price pb-5">
+            <div className="cart-totals bg-grey">
+              <div className="total-price">
                 <table cellspacing="0" className="table text-uppercase">
                   <tbody>
-                    <tr className="subtotal pt-2 pb-2 border-top border-bottom">
-                      <th>Subtotal</th>
-                      <td data-title="Subtotal">
-                        <span className="price-amount amount text-dark ps-5">
-                          <bdi> {fCurrency(calculateSubtotal())} </bdi>
-                        </span>
-                      </td>
-                    </tr>
-                    <tr className="order-total pt-2 pb-2 border-bottom">
+                    <tr className="order-total pb-2 border-bottom">
                       <th>Total</th>
                       <td data-title="Total">
                         <span className="price-amount amount text-dark ps-5">
-                          <bdi> {fCurrency(calculateSubtotal())} </bdi>
+                          <bdi> {fCurrency(calculateTotal())} </bdi>
                         </span>
                       </td>
                     </tr>
@@ -223,6 +214,7 @@ const Cart = () => {
               </div>
 
               {/* ---------- Voucher ---------- */}
+              <label className="text">Voucher:</label>
               <div className="col-md-12 mb-3">
                   <input
                     type="text"
@@ -232,9 +224,20 @@ const Cart = () => {
                     onChange={HandleChangeVoucher}
                   />
                 </div>
-                
+                {alertError? (
+                    <div className="alert alert-danger mt-2">
+                      {alertError}
+                    </div>
+                  )
+                :
+                (
+                  <div>
+                    <br/><br/>
+                  </div>
+                )
+              }
             {/* ---------- Buttons ---------- */}
-              <div className="button-wrap row g-2">
+              <div className="button-wrap row g-2 mt-2">
                 <div className="col-md-6">
                   <button
                     className="btn btn-dark py-3 px-4 text-uppercase btn-rounded-none w-100"
@@ -258,11 +261,7 @@ const Cart = () => {
                     Proceed to checkout
                   </button>
                 </div>
-                {alertError && (
-                    <div className="alert alert-danger mt-2">
-                      {alertError}
-                    </div>
-                  )}
+                
               </div>
             </div>
           </div>
