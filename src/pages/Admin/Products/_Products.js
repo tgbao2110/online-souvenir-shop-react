@@ -1,11 +1,10 @@
 import React, { useState, useEffect } from "react";
-import {Pagination} from "@mui/material";
+import { Pagination } from "@mui/material";
 import api from "../../../utils/api";
 import AdminLayout from "../../../layout/AdminLayout";
 import TextInput from "../../../components/TextInput";
 import fCurrency from "../../../utils/FormatCurrency";
 import fTime from "../../../utils/FormatDateTime";
-
 import CreateProductModal from "./Create";
 import UpdateProductModal from "./Update";
 
@@ -18,17 +17,22 @@ const Products = () => {
   const [currentPage, setCurrentPage] = useState(1);
 
   const productsPerPage = 6;
-  const totalPages = 2;
+  const totalPages = 2; // Fixed total pages to 2
 
   useEffect(() => {
     fetchProducts();
-  }, []);
+  }, [currentPage]);
 
   const fetchProducts = async () => {
     try {
-      const response = await api.get("/Product");
-      const productsData = response.data;
+      const response = await api.get("/Product", {
+        params: {
+          PageNumber: currentPage,
+          PageSize: productsPerPage,
+        },
+      });
 
+      const productsData = response.data;
       const productsWithCategories = await Promise.all(
         productsData.map(async (product) => {
           const categoryName = await fetchCategoryName(product.categoryId);
@@ -65,11 +69,6 @@ const Products = () => {
     product.name.toLowerCase().includes(searchTerm.toLowerCase())
   );
 
-  const indexOfLastProduct = currentPage * productsPerPage;
-  const indexOfFirstProduct = indexOfLastProduct - productsPerPage;
-  const currentProducts = filteredProducts.slice(indexOfFirstProduct, indexOfLastProduct);
-
-
   return (
     <AdminLayout>
       <div className="container mt-5">
@@ -104,7 +103,7 @@ const Products = () => {
             </tr>
           </thead>
           <tbody>
-            {currentProducts.map((product) => (
+            {filteredProducts.map((product) => (
               <tr key={product.id}>
                 <td>{product.name}</td>
                 <td>{product.description}</td>

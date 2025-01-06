@@ -60,12 +60,6 @@ const Purchase = () => {
                     >
                       Quantity
                     </th>
-                    <th
-                      scope="col"
-                      className="card-title text-uppercase text-muted"
-                    >
-                      Subtotal
-                    </th>
                   </tr>
                 </thead>
                 <tbody>
@@ -85,13 +79,6 @@ const Purchase = () => {
                       <td className="py-4">
                         <div className="input-group product-qty w-50">
                           {item.quantity}
-                        </div>
-                      </td>
-                      <td className="py-4">
-                        <div className="total-price">
-                          <span className="money text-dark">
-                            {fCurrency(item.quantity * item.product.discountPrice)}
-                          </span>
                         </div>
                       </td>
                     </tr>
