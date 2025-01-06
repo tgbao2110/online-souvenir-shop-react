@@ -1,10 +1,11 @@
 import { Link } from "react-router-dom";
 import AuthButtons from "./AuthButtons";
 import UserArea from "./UserArea";
-import { useAuth } from "../contexts/AuthContext"; // Import the useAuth hook
-
+import { useAuth } from "../contexts/AuthContext";
+import { useNavigate } from "react-router-dom";
 const Header = () => {
   const { role } = useAuth();
+  const navigate = useNavigate();
 
   return (
     <div className="container-fluid">
@@ -15,17 +16,6 @@ const Header = () => {
           <Link to="/">
             <img style={{ width: "70px", height: "70px" }} src="images/logo.png" alt="logo" className="img-fluid" />
           </Link>
-          <button
-            className="navbar-toggler ms-3"
-            type="button"
-            data-bs-toggle="offcanvas"
-            data-bs-target="#offcanvasNavbar"
-            aria-controls="offcanvasNavbar"
-          >
-            <svg width="24" height="24" viewBox="0 0 24 24">
-              {/* <use xlink:href="#menu"></use> */}
-            </svg>
-          </button>
         </div>
 
         {/* --------------- Navbar --------------- */}
@@ -37,14 +27,14 @@ const Header = () => {
               </Link>
             </li>
             <li className="nav-item active">
-              <a href="/products" className="nav-link">
+              <Link to="/products" className="nav-link">
                 Shop now
-              </a>
+              </Link>
             </li>
             <li className="nav-item active">
-              <a href="/about" className="nav-link">
+              <Link to="/about" className="nav-link">
                 About us
-              </a>
+              </Link>
             </li>
           </ul>
         </div>
