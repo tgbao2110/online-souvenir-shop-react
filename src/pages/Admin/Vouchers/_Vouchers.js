@@ -6,6 +6,7 @@ import { TextField } from "@mui/material";
 import AdminLayout from "../../../layout/AdminLayout";
 import CreateVoucherModal from "./Create";
 import UpdateVoucherModal from "./Update";
+import TextInput from "../../../components/TextInput";
 const Vouchers = () => {
   const [vouchers, setVouchers] = useState([]);
   const [searchTerm, setSearchTerm] = useState("");
@@ -37,10 +38,8 @@ const Vouchers = () => {
       <div className="container mt-5">
         <h1 className="text-primary mb-4">Vouchers</h1>
         <div className="mb-3">
-          <TextField
-            fullWidth
-            variant="outlined"
-            placeholder="Search vouchers"
+          <TextInput type="text" className="input-group outline-primary"
+            placeholder="Search for vouchers..."
             value={searchTerm}
             onChange={handleSearch}
           />

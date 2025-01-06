@@ -6,6 +6,7 @@ import Person3OutlinedIcon from '@mui/icons-material/Person3Outlined';
 import ShoppingCartOutlinedIcon from '@mui/icons-material/ShoppingCartOutlined';
 import AccountBoxRoundedIcon from '@mui/icons-material/AccountBoxRounded';
 import FavoriteRoundedIcon from '@mui/icons-material/FavoriteRounded';
+import ViewListRoundedIcon from '@mui/icons-material/ViewListRounded';
 import ExitToAppRoundedIcon from '@mui/icons-material/ExitToAppRounded';
 
 
@@ -60,7 +61,13 @@ const UserArea = () => {
               Favourite
             </Link>
           </MenuItem>
-          <MenuItem onClick={handleLogout}>
+          <MenuItem onClick={handleClose}>
+            <Link to="/orders" className="text-decoration-none">
+              <ViewListRoundedIcon className="me-2"/>
+              Your Orders
+            </Link>
+          </MenuItem>
+          <MenuItem onClick={handleLogout} className="text-danger">
             <ExitToAppRoundedIcon className="me-2"/>
             Logout
           </MenuItem>

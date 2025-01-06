@@ -3,6 +3,7 @@ import {TextField } from "@mui/material";
 import api from "../../../utils/api";
 import AdminLayout from "../../../layout/AdminLayout";
 import AccountDetailsModal from "./Details";
+import TextInput from "../../../components/TextInput";
 
 const Accounts = () => {
   const [accounts, setAccounts] = useState([]);
@@ -40,10 +41,8 @@ const Accounts = () => {
       <div className="container mt-5">
         <h1 className="text-primary mb-4">Accounts</h1>
         <div className="mb-3">
-          <TextField
-            fullWidth
-            variant="outlined"
-            placeholder="Search accounts"
+          <TextInput type="text" className="input-group outline-primary"
+            placeholder="Search for accounts..."
             value={searchTerm}
             onChange={handleSearch}
           />
