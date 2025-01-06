@@ -52,11 +52,8 @@ const UpdateProductModal = ({ open, handleClose, fetchProducts, product }) => {
     formData.append("nasePrice", price);
     formData.append("discountPrice", discountPrice);
     formData.append("categoryId", categoryId);
-    if (image) {
-      formData.append("file", image);
-    } else if (existingImage) {
-      formData.append("file", "https://localhost:7096" + product.imageUrl);
-    }
+    formData.append("file", image);
+    
     for (let [key, value] of formData.entries()) { console.log(`${key}: ${value}`); }
     try {
       await api.put(`/Category/${product.id}`, formData, {
