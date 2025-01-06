@@ -2,6 +2,8 @@ import React from "react";
 import { Link } from "react-router-dom";
 import { useAuth } from "../contexts/AuthContext";
 import { Menu, MenuItem } from "@mui/material";
+import { useNavigate } from "react-router-dom";
+
 import Person3OutlinedIcon from '@mui/icons-material/Person3Outlined';
 import ShoppingCartOutlinedIcon from '@mui/icons-material/ShoppingCartOutlined';
 import AccountBoxRoundedIcon from '@mui/icons-material/AccountBoxRounded';
@@ -9,13 +11,13 @@ import FavoriteRoundedIcon from '@mui/icons-material/FavoriteRounded';
 import ViewListRoundedIcon from '@mui/icons-material/ViewListRounded';
 import ExitToAppRoundedIcon from '@mui/icons-material/ExitToAppRounded';
 
-
 const UserArea = () => {
+  const navigate = useNavigate();
   const { logout } = useAuth();
   const handleLogout = () => {
     logout();
     localStorage.removeItem("token");
-    window.location.href = "/";
+    navigate("/login");
   };
 
   const [anchorEl, setAnchorEl] = React.useState(null);
