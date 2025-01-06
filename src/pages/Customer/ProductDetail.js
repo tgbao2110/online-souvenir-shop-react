@@ -1,5 +1,5 @@
 import { React, useState, useEffect } from "react";
-import { Snackbar, Alert } from "@mui/material";
+import { Snackbar, Alert, TextField, Button, Avatar, Box } from "@mui/material";
 import { useParams } from "react-router-dom";
 import { useAuth } from "../../contexts/AuthContext";
 import api from "../../utils/api";
@@ -14,12 +14,13 @@ const ProductDetail = () => {
   const [alertOpen, setAlertOpen] = useState(false);
   const [alertMessage, setAlertMessage] = useState("");
   const [alertSeverity, setAlertSeverity] = useState("success");
+  const [reviewComment, setReviewComment] = useState("");
 
   useEffect(() => {
     fetchProductDetails();
   }, [id]);
 
-  const { role } = useAuth(); 
+  const { role } = useAuth();
 
   const fetchProductDetails = async () => {
     try {
@@ -32,7 +33,7 @@ const ProductDetail = () => {
   };
 
   const handleFavourite = async () => {
-    if(role==="guest") window.location.href="/login";
+    if (role === "guest") window.location.href = "/login";
     try {
       await api.post("/Product/add-favourite", { productId: product.id });
       setAlertMessage("Added to favourites successfully!");
@@ -46,7 +47,7 @@ const ProductDetail = () => {
   };
 
   const handleCart = async () => {
-    if(role==="guest") window.location.href="/login";
+    if (role === "guest") window.location.href = "/login";
     try {
       await api.post("/Cart", { productId: product.id, quantity });
       setAlertMessage("Added to cart successfully!");
@@ -54,6 +55,25 @@ const ProductDetail = () => {
     } catch (error) {
       console.error("Error adding to cart", error);
       setAlertMessage("Error adding to cart. Please try again later.");
+      setAlertSeverity("error");
+    }
+    setAlertOpen(true);
+  };
+
+  const handleAddReview = async () => {
+    if (role === "guest") window.location.href = "/login";
+    try {
+      const response = await api.post("/Comment", {
+        productId: product.id,  
+        comment: reviewComment,
+      });
+      setAlertMessage("Review added successfully!");
+      setAlertSeverity("success");
+      setReviewComment("");
+      fetchProductDetails();
+    } catch (error) {
+      console.error("Error adding review", error);
+      setAlertMessage("Error adding review. Please try again later.");
       setAlertSeverity("error");
     }
     setAlertOpen(true);
@@ -108,8 +128,7 @@ const ProductDetail = () => {
             <div className="product-info">
               <div className="element-header">
                 <h2 itemProp="name">{product.name}</h2>
-                <div className="rating-container d-flex gap-0 align-items-center">
-                </div>
+                <div className="rating-container d-flex gap-0 align-items-center"></div>
                 {product.stockQuantity === 0 && (
                   <h3 className="text-danger mt-2">Out of stock</h3>
                 )}
@@ -118,53 +137,111 @@ const ProductDetail = () => {
                 <strong className="text-primary display-6 fw-bold">
                   {fCurrency(product.discountPrice)}
                 </strong>
-                <br/>
+                <br />
                 <span className="text-muted fs-4">
-                  {(product.basePrice != product.discountPrice) ? <del>{fCurrency(product.basePrice)}</del> :<br/> }
+                  {product.basePrice != product.discountPrice ? (
+                    <del>{fCurrency(product.basePrice)}</del>
+                  ) : (
+                    <br />
+                  )}
                 </span>
+              </div>
+              <div className="meta-product py-2">
+                <div className="meta-item d-flex align-items-baseline">
+                  <h6 className="item-title no-margin pe-2">Category:</h6>
+                  <a>{product.category.name}</a>
+                </div>
               </div>
               <p>{product.description}</p>
               <div className="product-qty text-wrap py-4">
                 <label className="me-2 mb-2">Quantity: </label>
                 <input
-                    type="number"
-                    min="1"
-                    max={product.stockQuantity}
-                    value={quantity}
-                    onChange={(e) => {
-                        const value = Math.max(1, e.target.value);
-                        setQuantity(value);
-                    }}
+                  type="number"
+                  min="1"
+                  max={product.stockQuantity}
+                  value={quantity}
+                  onChange={(e) => {
+                    let value = parseInt(e.target.value);
+                    if (isNaN(value) || value < 1) {
+                      value = 1;
+                    } else if (value > product.stockQuantity) {
+                      value = product.stockQuantity;
+                    }
+                    setQuantity(value);
+                  }}
+                  onBlur={() => {
+                    if (quantity === "") {
+                      setQuantity(1);
+                    }
+                  }}
                 />
 
-                <div class="stock-number text-dark">
+                <div className="stock-number text-dark">
                   <em>{product.stockQuantity} products available</em>
-                  </div>
+                </div>
               </div>
-              <div class="qty-button d-flex flex-wrap pt-3">
-                {product.stockQuantity > 0 && <button
-                  class="btn btn-primary py-3 px-4 text-uppercase me-3 mt-3"
-                  onClick={handleCart}
-                >
-                  Add to Cart
-                </button>}
+              <div className="qty-button d-flex flex-wrap pt-3">
+                {product.stockQuantity > 0 && (
+                  <button
+                    className="btn btn-primary py-3 px-4 text-uppercase me-3 mt-3"
+                    onClick={handleCart}
+                  >
+                    Add to Cart
+                  </button>
+                )}
                 <button
-                  class="btn btn-dark py-3 px-4 text-uppercase mt-3"
+                  className="btn btn-dark py-3 px-4 text-uppercase mt-3"
                   onClick={handleFavourite}
                 >
                   Add to Favourite
                 </button>
               </div>
-              <div class="meta-product py-2">
-                <div class="meta-item d-flex align-items-baseline">
-                  <h6 class="item-title no-margin pe-2">SKU:</h6>
-                  <span>1223</span>
-                </div>
-                <div class="meta-item d-flex align-items-baseline">
-                  <h6 class="item-title no-margin pe-2">Category:</h6>
-                  <a>{product.category.name}</a>
-                </div>
-              </div>
+            </div>
+          </div>
+          <div>
+            {/* Add Review Section */}
+            <div className="add-review mt-5">
+              <h5>Add Your Review</h5>
+              <TextField
+                className="mt-3"
+                label="Your Review"
+                multiline
+                rows={4}
+                value={reviewComment}
+                onChange={(e) => setReviewComment(e.target.value)}
+                variant="outlined"
+                fullWidth
+              />
+              <button
+                className="btn btn-primary mt-3"
+                onClick={handleAddReview}
+              >
+                Send
+              </button>
+            </div>
+            {/* Reviews Section */}
+            <div className="reviews mt-5">
+              <h5>Reviews</h5>
+              {product.reviews && product.reviews.length > 0 ? (
+                product.reviews.map((review) => (
+                  <div key={review.id} className="review mb-4">
+                    <Box display="flex" alignItems="center" mb={2}>
+                      <Avatar
+                        className="avatar"
+                        style={{ transform: "translateY(-30%)" }}
+                        src={`https://localhost:7096/${review.customer.avatarUrl}`}
+                        alt={review.customer.userName}
+                      />
+                      <Box ml={2}>
+                        <strong>{review.customer.userName}</strong>
+                        <p>{review.comment}</p>
+                      </Box>
+                    </Box>
+                  </div>
+                ))
+              ) : (
+                <p>No reviews yet.</p>
+              )}
             </div>
           </div>
         </div>
@@ -173,7 +250,7 @@ const ProductDetail = () => {
         open={alertOpen}
         autoHideDuration={6000}
         onClose={handleCloseAlert}
-        anchorOrigin={{ vertical: 'top', horizontal: 'center' }}
+        anchorOrigin={{ vertical: "top", horizontal: "center" }}
       >
         <Alert onClose={handleCloseAlert} severity={alertSeverity}>
           {alertMessage}
